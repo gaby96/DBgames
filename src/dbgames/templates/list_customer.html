@@ -1,0 +1,53 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/navbar-top-fixed.css' %}" rel="stylesheet">
+	<title>Item List</title>
+</head>
+{% include 'navbar.html' %}
+<body>
+    <div class="header">{{title}}</div>
+<div class = "container">
+    <div class="display_table">
+         <form method='POST' action=''>{% csrf_token %}
+            {{form|crispy}}
+                <input type="submit" value='Search'/>
+        </form> 
+        <br>
+    <table class='table'>
+        <thead>
+          <tr>
+            <th>COUNT</th>
+            <th>CATEGORY</th>
+            <th>GAME TITLE</th>
+            <th>PRICE IN STORE</th>
+            <th>MANUFACTURER</th>
+            <th> UPDATE</th>
+            <th>DELETE </th>
+            <th> READ</th>
+          </tr>
+        </thead>
+      {% for instance in queryset %}
+          <tr>
+            <td>{{instance.id}}</td>
+            <td>{{instance.first_name}}</td>
+            <td>{{instance.last_name}}</td>
+            <td>{{instance.telephone_number}}</td>
+            <td><a href="{% url 'update_customer' instance.id %}">Update</a></td>
+            <td><a href="{% url 'delete_customer' instance.id %}">Delete</a></td>
+            <td><a href="{% url 'customer_detail' instance.id %}">Read</a></td>
+          </tr>
+      {% endfor %}
+    </table>
+</div><!--End of display table-->
+</div>
+
+
+
+</body>
+</html>

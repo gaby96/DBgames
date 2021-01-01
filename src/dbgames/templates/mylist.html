@@ -1,0 +1,40 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+	<title>Item List</title>
+</head>
+<body>
+    
+    <div class="display_table">
+        <form method="get">
+            {{ filter.form.as_p }}
+            <button type="submit">Search</button>
+          </form>
+        <br>
+    <table class='table'>
+        <thead>
+          <tr>
+            <th>COUNT</th>
+            <th>CATEGORY</th>
+            <th>ITEM NAME</th>
+            <th>QUANTITY IN STORE</th>
+          </tr>
+        </thead>
+      {% for instance in filter.qs %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{instance.category}}</td>
+            <td>{{instance.game_title}}</td>
+            <td>{{instance.price}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+</div><!--End of display table-->
+
+
+
+</body>
+</html>
