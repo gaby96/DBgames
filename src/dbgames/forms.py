@@ -60,8 +60,19 @@ class CustomerUpdateForm(forms.ModelForm):
         model = Customer
         fields = ['first_name', 'last_name', 'customer_address', 'telephone_number']
 
-
+# Order Form for creating the order
 class OrderCreateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer','paid']
+
+
+class OrderSearchForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer']
+
+class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['customer','paid']

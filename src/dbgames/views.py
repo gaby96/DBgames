@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Stock, Customer
-from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, CustomerCreateForm, CustomerSearchForm, CustomerUpdateForm
+from .models import Stock, Customer, Order
+from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, CustomerCreateForm, CustomerSearchForm, CustomerUpdateForm, OrderCreateForm, OrderSearchForm, OrderUpdateForm
 from .filters import StockFilter
 
 def home(request):
@@ -128,3 +128,44 @@ def customer_detail(request, pk):
     }
     return render(request, "customer_detail.html", context)
 # Create your views here.
+
+
+def add_order(request):
+    form = OrderCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('/list_order')
+    context = {
+        "form" : form,
+        "title": "Page To add Item"
+    }
+    return render(request, "add_order.html", context)
+
+
+def list_order(request):
+    title = "List OF Game Titles"
+    form = OrderSearchForm(request.POST or None)
+    queryset = Order.objects.all()
+    if request.method == "POST":
+        queryset = Order.objects.filter(customer__icontains=form['customer'].value())
+    context = {
+        "title" : title,
+        "queryset" : queryset,
+        "form" : form
+    }
+    #print(context)
+    return render(request, "list_order.html", context)
+
+def update_order(request, pk):
+    queryset = Order.objects.get(id=pk)
+    form = OrderUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = OrderUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            return redirect('/list_order')
+    context = {
+        'form' : form
+    } 
+
+    return render(request, 'add_order.html', context)
