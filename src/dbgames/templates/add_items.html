@@ -1,5 +1,7 @@
+{% extends 'stock.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +9,12 @@
 	<title>{{title}}</title>
 </head>
 <body>
+    <div class="container">
 	<form method='POST' action=''>{% csrf_token %}
 		{{form|crispy}}
         <input type="submit" value='Save'/>
     </form>
-
+</div>
 </body>
 </html>
+{% endblock %}

@@ -19,15 +19,14 @@
                 <input type="submit" value='Search'/>
         </form>
         <br>
+        <a class="btn btn-primary" href="{% url 'add_order'%}" role="button">ADD ORDER</a>
     <table class='table'>
         <thead>
           <tr>
             <th>COUNT</th>
-            <th>CATEGORY</th>
-            <th>GAME TITLE</th>
-            <th>PRICE IN STORE</th>
-            <th>MANUFACTURER</th>
+            <th>CUSTOMER</th>
             <th> UPDATE</th>
+            <th> PAYMENT STATUS </th>
             <th>DELETE </th>
             <th> READ</th>
           </tr>
@@ -36,12 +35,13 @@
           <tr>
             <td>{{instance.id}}</td>
             <td>{{instance.customer}}</td>
+            <td>{{instance.paid}}</td>
             <!-- <td>{{instance.game_title}}</td>
             <td>{{instance.price}}</td>
             <td>{{instance.manufacturer}}</td> -->
             <td><a href="{% url 'update_order' instance.id %}">Update</a></td>
-            <td><a href="{% url 'delete_items' instance.id %}">Delete</a></td>
-            <td><a href="{% url 'stock_detail' instance.id %}">Read</a></td>
+            <td><a href="{% url 'delete_order' instance.id %}">Delete</a></td>
+            <td><a href="{% url 'order_detail' instance.id %}">Read</a></td>
           </tr>
       {% endfor %}
     </table>

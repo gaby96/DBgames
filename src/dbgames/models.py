@@ -15,7 +15,7 @@ class Customer(models.Model):
     telephone_number = models.CharField(max_length=10, default=0, blank=True, null=True)
 
     def __str__(self):
-        return self.first_name + '' + self.last_name
+        return self.first_name + ' ' + self.last_name
 
 class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -27,7 +27,7 @@ class Order(models.Model):
     paid = models.CharField(max_length=4,blank=True, null=True, choices=paid_choice)
 
     def __str__(self):
-        return self.paid
+        return str(self.id)
 
 
 class OrderItems(models.Model):
@@ -66,7 +66,7 @@ class Stock(models.Model):
 
 
     def __str__(self):
-        return self.game_title + '' + str(self.quantity) + '' + self.manufacturer + '' + str(self.price)
+        return self.game_title
 	
 
     

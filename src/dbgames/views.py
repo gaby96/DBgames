@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Stock, Customer, Order
-from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, CustomerCreateForm, CustomerSearchForm, CustomerUpdateForm, OrderCreateForm, OrderSearchForm, OrderUpdateForm
+from .models import Stock, Customer, Order, OrderItems
+from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, CustomerCreateForm, CustomerSearchForm, CustomerUpdateForm, OrderCreateForm, OrderSearchForm, OrderUpdateForm, OrderItemsCreateForm, OrderItemsSearchForm, OrderItemsUpdateForm
 from .filters import StockFilter
 
 def home(request):
@@ -8,7 +8,7 @@ def home(request):
     context = {
         "title" :  title,
     }
-    return render(request, "home.html",context)
+    return render(request, "base.html",context)
 
 
 def list_item(request):
@@ -84,7 +84,7 @@ def add_customer(request):
 
 
 def list_customer(request):
-    title = "List OF Game Titles"
+    title = "Customer Information"
     form = CustomerSearchForm(request.POST or None)
     queryset = Customer.objects.all()
     if request.method == "POST":
@@ -143,7 +143,7 @@ def add_order(request):
 
 
 def list_order(request):
-    title = "List OF Game Titles"
+    title = "List OF Orders"
     form = OrderSearchForm(request.POST or None)
     queryset = Order.objects.all()
     if request.method == "POST":
@@ -169,3 +169,78 @@ def update_order(request, pk):
     } 
 
     return render(request, 'add_order.html', context)
+
+def delete_order(request, pk):
+    queryset = Order.objects.get(id=pk)
+    if request.method == "POST":
+        queryset.delete()
+        return redirect('/list_order')
+    return render(request, 'delete_order.html')
+
+def order_detail(request, pk):
+    queryset = Order.objects.get(id=pk)
+    context = {
+        "title" : queryset.customer,
+        "queryset": queryset
+    }
+    return render(request, "order_detail.html", context)
+
+def add_orderitems(request):
+    form = OrderItemsCreateForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('/list_orderitems')
+    context = {
+    "form" : form,
+    "title": "Page To add OrderItems"
+    }
+
+    return render(request, "add_orderitems.html", context)
+
+def list_orderitems(request):
+    title = "List OF Order Items"
+    form = OrderItemsSearchForm(request.POST or None)
+    queryset = OrderItems.objects.all()
+    if request.method == "POST":
+        queryset = OrderItems.objects.filter(customer__icontains=form['order'].value())
+    context = {
+        "title" : title,
+        "queryset" : queryset,
+        "form" : form
+    }
+    #print(context)
+    return render(request, "list_orderitems.html", context)
+
+
+
+def update_orderitems(request, pk):
+    queryset = OrderItems.objects.get(id=pk)
+    form = OrderItemsUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = OrderItemsUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            return redirect('/list_orderitems')
+    context = {
+        'form' : form
+    } 
+
+    return render(request, 'add_orderitems.html', context)
+
+
+
+def delete_orderitems(request, pk):
+    queryset = OrderItems.objects.get(id=pk)
+    if request.method == "POST":
+        queryset.delete()
+        return redirect('/list_orderitems')
+    return render(request, 'delete_orderitems.html')
+
+
+def orderitems_detail(request, pk):
+    queryset = OrderItems.objects.get(id=pk)
+    context = {
+        "title" : queryset.order,
+        "queryset": queryset
+    }
+    return render(request, "orderitems_detail.html", context)
