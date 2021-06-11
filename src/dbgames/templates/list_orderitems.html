@@ -13,36 +13,36 @@
 <body>
     <div class="header">{{title}}</div>
 <div class = "container">
+  
     <div class="display_table">
+      
         <form method='POST' action=''>{% csrf_token %}
             {{form|crispy}}
                 <input type="submit" value='Search'/>
         </form>
         <br>
-        <a class="btn btn-primary" href="{% url 'add_items'%}" role="button">ADD STOCK</a>
+        <a class="btn btn-primary" href="{% url 'add_orderitems'%}" role="button">ADD ORDER ITEMS</a>
     <table class='table'>
         <thead>
           <tr>
             <th>COUNT</th>
-            <th>CATEGORY</th>
-            <th>GAME TITLE</th>
-            <th>PRICE IN STORE</th>
-            <th>MANUFACTURER</th>
-            <th> UPDATE</th>
-            <th>DELETE </th>
-            <th> READ</th>
+            <th>ORDER</th>
+            <th>STOCK</th>
+            <th>QUANTITY</th>
+            <th>UPDATE</th>
+            <th>DELETE</th>
+            <th>READ</th>
           </tr>
         </thead>
       {% for instance in queryset %}
           <tr>
             <td>{{instance.id}}</td>
-            <td>{{instance.category}}</td>
-            <td>{{instance.game_title}}</td>
-            <td>{{instance.price}} GH₵</td>
-            <td>{{instance.manufacturer}}</td>
-            <td><a href="{% url 'update_items' instance.id %}">Update</a></td>
-            <td><a href="{% url 'delete_items' instance.id %}">Delete</a></td>
-            <td><a href="{% url 'stock_detail' instance.id %}">Read</a></td>
+            <td>{{instance.order}}</td>
+            <td>{{instance.stock}}</td>
+            <td>{{instance.quantity}}</td>
+            <td><a href="{% url 'update_orderitems' instance.id %}">Update</a></td>
+            <td><a href="{% url 'delete_orderitems' instance.id %}">Delete</a></td>
+            <td><a href="{% url 'orderitems_detail' instance.id %}">Read</a></td>
           </tr>
       {% endfor %}
     </table>

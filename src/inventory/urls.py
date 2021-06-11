@@ -19,7 +19,7 @@ from dbgames import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    path('', views.home, name='base'),
     path('list_item/', views.list_item, name='list_item'),
     path('add_items/', views.add_items, name='add_items'),
     path('update_items/<str:pk>/', views.update_items, name="update_items"),
@@ -30,4 +30,14 @@ urlpatterns = [
     path('update_customer/<str:pk>/', views.update_customer, name="update_customer"),
     path('customer_detail/<str:pk>/', views.customer_detail, name="customer_detail"),
     path('delete_customer/<str:pk>/', views.delete_customer, name="delete_customer"),
+    path('add_order/', views.add_order, name="add_order"),
+    path('list_order/', views.list_order, name="list_order"),
+    path('update_order/<str:pk>/', views.update_order, name="update_order"),
+    path('delete_order/<str:pk>/', views.delete_order, name="delete_order"),
+    path('order_detail/<str:pk>/', views.order_detail, name="order_detail"),
+    path('add_orderitems/', views.add_orderitems, name='add_orderitems'),
+    path('list_orderitems/', views.list_orderitems, name='list_orderitems'),
+    path('update_orderitems/<str:pk>', views.update_orderitems, name="update_orderitems"),
+    path('delete_orderitems/<str:pk>/', views.delete_orderitems, name="delete_orderitems"),
+    path('orderitems_detail/<str:pk>/', views.orderitems_detail, name="orderitems_detail")
 ]

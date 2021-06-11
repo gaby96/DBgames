@@ -1,5 +1,5 @@
 from django import forms
-from .models import Stock, Category, Customer, Order
+from .models import Stock, Category, Customer, Order, OrderItems
 
 class StockCreateForm(forms.ModelForm):
     class Meta:
@@ -60,8 +60,43 @@ class CustomerUpdateForm(forms.ModelForm):
         model = Customer
         fields = ['first_name', 'last_name', 'customer_address', 'telephone_number']
 
-
+# Order Form for creating the order
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['customer','paid']
+
+
+class OrderSearchForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer']
+
+class OrderUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer','paid']
+
+
+class OrderItemsCreateForm(forms.ModelForm):
+    class Meta:
+        model = OrderItems
+        fields = ['order', 'stock', 'quantity']
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data['quantity']
+        if quantity < 0:
+            raise forms.ValidationError("Quantity should be better than 0")
+        return quantity
+
+
+class OrderItemsSearchForm(forms.ModelForm):
+    class Meta:
+        model = OrderItems
+        fields = ['order']
+
+
+class OrderItemsUpdateForm(forms.ModelForm):
+    class Meta:
+        model = OrderItems
+        fields = ['order', 'stock', 'quantity']
